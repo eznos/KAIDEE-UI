@@ -13,9 +13,9 @@
             <!-- <v-spacer></v-spacer> -->
             <v-card-title class="justify-center" dark>
               <v-img
-                src="../../assets/police3.png"
-                max-width="200px"
-                max-height="200px"
+                src="../../assets/img/ecommerce.png"
+                max-width="250px"
+                max-height="290px"
               ></v-img>
             </v-card-title>
             <v-card-text :style="{ padding: 0 }">
@@ -63,7 +63,7 @@
             <v-card-actions class="row-btn">
               <v-row>
                 <v-col cols="12">
-                  <v-btn block color="primary" @click="submit">
+                  <v-btn block color="primary" to="/">
                     <v-icon>mdi-login</v-icon>เข้าสู่ระบบ
                   </v-btn>
                 </v-col>

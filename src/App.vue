@@ -1,43 +1,11 @@
 <template>
-  <v-app
-    id="main"
-    :style="{ background: $vuetify.theme.themes[theme].background }"
-    class="myFont"
-  >
-    <template v-if="$route.path.includes('login')">
-      <v-main class="ma-4">
-        <router-view></router-view>
-      </v-main>
-    </template>
-    <template v-else-if="$route.path.includes('forgetpass')">
-      <v-main class="ma-4">
-        <router-view></router-view>
-      </v-main>
-    </template>
-    <template v-else-if="$route.path.includes('recovery')">
-      <v-main class="ma-4">
-        <router-view></router-view>
-      </v-main>
-    </template>
-    <template v-else-if="$route.path.includes('register')">
-      <v-main class="ma-4">
-        <router-view></router-view>
-      </v-main>
-    </template>
-
-    <template v-else>
-      <Navbar />
-      <v-main class="ma-4">
-        <router-view></router-view>
-      </v-main>
-      <Footer />
-    </template>
-  </v-app>
+  <div id="app">
+      <router-view/>
+  </div>
 </template>
 
+
 <script>
-import Navbar from "../src/components/navbar/Navbar.vue";
-import Footer from "../src/components/footer/Footer.vue";
 export default {
   data: () => ({
     admin: "admin",
@@ -46,10 +14,7 @@ export default {
   props: {
     source: String,
   },
-  components: {
-    Navbar,
-    Footer,
-  },
+
   created() {
     this.getUserRole();
   },

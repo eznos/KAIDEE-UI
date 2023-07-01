@@ -1,40 +1,23 @@
-import Vue from "vue";
-import Vuetify from "vuetify/lib/framework";
+// src/plugins/vuetify.js
+
+import Vue from 'vue'
+import Vuetify from 'vuetify'
+import 'vuetify/dist/vuetify.min.css'
 
 Vue.use(Vuetify);
-import th from "vuetify/lib/locale/th";
 
-Vue.component("my-component", {
-  methods: {
-    changeLocale() {
-      this.$vuetify.lang.current = "th";
-    },
-  },
-});
-export default new Vuetify({
-  lang: {
-    locales: { th },
-    current: "th",
-  },
-  icons: {
-    iconfont: "md",
-  },
-  theme: {
+const opts = {theme: {
     themes: {
       light: {
-        primary: "#A23333",
-        secondary: "#C98888",
-        error: "#B72F2F",
-        warning: "#FFB14F",
-        agree: "#54c947",
-        background: "#DFDDDD",
-      },
-      options: {
-        customProperties: true,
-      },
+        primary: '#2D3753',
+        secondary: '#2D3753',
+        accent: '#3AE3D6',
+        error: '#f44336',
+        info: '#2d3753',
+        success: '#7a904a',
+        warning: '#f78012',
+      }
     },
-  },
-  font: {
-    family: "Sarabun",
-  },
-});
+  },};
+
+export default new Vuetify(opts)

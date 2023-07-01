@@ -1,378 +1,285 @@
 <template>
-  <v-app id="app">
-    <v-card class="mx-auto" elevation="10" width="100%">
-      <v-card-title>
-        <div class="ml-3 mt-2 title">
-          <h3>
-            <v-icon size="40px" color="">mdi-account-edit</v-icon>
-            แก้ไขข้อมูลส่วนตัว
-          </h3>
-        </div>
-      </v-card-title>
-      <v-card-text>
-        <v-form ref="formEdit" v-model="valid" class="form" lazy-validation>
-          <v-responsive>
-            <v-row>
-              <!-- avatar upload and preview -->
-              <v-col cols="12" sm="12" md="2" lg="2">
-                <v-hover v-slot="{ hover }">
-                  <v-card
-                    color="#DFDDDD"
-                    height="142"
-                    max-width="230"
-                    tile
-                    class="px-3 mb-2 uploadimg"
-                  >
-                    <v-row style="height: 100%" justify="center" align="center">
-                      <v-avatar
-                        v-if="!profileImage"
-                        tile
-                        height="142"
-                        width="230"
-                        color="#DFDDDD"
-                      >
-                        <h2>
-                          {{
-                            firstName != null ? firstName.substring(0, 1) : null
-                          }}
-                          {{
-                            lastName != null ? lastName.substring(0, 1) : null
-                          }}
-                        </h2>
-                      </v-avatar>
-                      <v-img
-                        v-if="profileImage !== ''"
-                        :src="profileImage"
-                        height="142"
-                        width="230"
-                      >
-                      </v-img>
-                      <v-expand-transition>
-                        <div
-                          v-if="hover"
-                          class="d-flex v-card--reveal"
-                          style="height: 100%"
+  <v-main>
+    <v-container fluid>
+      <v-card max-width="450px" class="mx-auto bg" elevation="2">
+        <v-img
+          class=""
+          height="200px"
+          src="http://unblast.com/wp-content/uploads/2021/09/Real-Estate-Agent-Illustration.jpg"
+          gradient="150deg, rgb(185 224 255 / 58%) 0%, rgb(243 220 246 / 52%) 35%, rgb(223 255 242 / 74%) 74%"
+        >
+        </v-img>
+        <v-row justify="center">
+          <v-col
+            align-self="start"
+            class="mx-auto justify-center align-center"
+            cols="12"
+          >
+            <v-hover v-slot="{ hover }">
+              <v-card color="rgba(245, 39, 145, 0)" class="px-3 mb-2 uploadimg">
+                <v-row style="height: 100%" justify="center" align="center">
+                  <v-avatar color="grey" size="190" rounded="10">
+                    <v-img
+                      v-if="profileImage !== ''"
+                      :src="profileImage"
+                      height="190"
+                    >
+                    </v-img>
+                  </v-avatar>
+                  <v-expand-transition>
+                    <div
+                      v-if="hover"
+                      class="d-flex v-card--reveal"
+                      style="height: 100%"
+                    >
+                      <div>
+                        <v-btn
+                          fab
+                          color="#F5F5F5"
+                          class="mr-2"
+                          @click="handleImageButtonClick"
                         >
-                          <div>
-                            <v-btn
-                              fab
-                              color="#F5F5F5"
-                              class="mr-2"
-                              @click="handleImageButtonClick"
-                            >
-                              <v-icon size="30">mdi-file-image-outline</v-icon>
-                            </v-btn>
-                            <input
-                              type="file"
-                              ref="image"
-                              @change="onImageSelected"
-                              style="display: none"
-                              accept="image/png, image/jpeg"
-                            />
-                          </div>
-                        </div>
-                      </v-expand-transition>
+                          <v-icon size="30">mdi-file-image-outline</v-icon>
+                        </v-btn>
+                        <input
+                          type="file"
+                          ref="image"
+                          @change="onImageSelected"
+                          style="display: none"
+                          accept="image/png, image/jpeg"
+                        />
+                      </div>
+                    </div>
+                  </v-expand-transition>
+                </v-row>
+              </v-card>
+            </v-hover>
+          </v-col>
+        </v-row>
+        <v-list-item color="#0000" class="profile-text-name ma-4 pt-16">
+          <v-list-item-content>
+            <v-list-item-title class="text-h6">
+              Marcus Obrien
+            </v-list-item-title>
+            <v-list-item-subtitle>Network Engineer</v-list-item-subtitle>
+          </v-list-item-content>
+          <v-list-item-action>
+            <!-- icon + -->
+            <v-dialog v-model="dialog" persistent width="1024">
+              <template v-slot:activator="{ props }">
+                <v-btn
+                  class="mx-2"
+                  v-bind="props"
+                  fab
+                  dark
+                  color="indigo"
+                  small
+                >
+                  <v-icon dark> mdi-clipboard-edit </v-icon>
+                </v-btn>
+              </template>
+              <v-card>
+                <v-card-title>
+                  <span class="text-h5">User Profile</span>
+                </v-card-title>
+                <v-card-text>
+                  <v-container>
+                    <v-row>
+                      <v-col cols="12" sm="6" md="4">
+                        <v-text-field
+                          label="Legal first name*"
+                          required
+                        ></v-text-field>
+                      </v-col>
+                      <v-col cols="12" sm="6" md="4">
+                        <v-text-field
+                          label="Legal middle name"
+                          hint="example of helper text only on focus"
+                        ></v-text-field>
+                      </v-col>
+                      <v-col cols="12" sm="6" md="4">
+                        <v-text-field
+                          label="Legal last name*"
+                          hint="example of persistent helper text"
+                          persistent-hint
+                          required
+                        ></v-text-field>
+                      </v-col>
+                      <v-col cols="12">
+                        <v-text-field label="Email*" required></v-text-field>
+                      </v-col>
+                      <v-col cols="12">
+                        <v-text-field
+                          label="Password*"
+                          type="password"
+                          required
+                        ></v-text-field>
+                      </v-col>
+                      <v-col cols="12" sm="6">
+                        <v-select
+                          :items="['0-17', '18-29', '30-54', '54+']"
+                          label="Age*"
+                          required
+                        ></v-select>
+                      </v-col>
+                      <v-col cols="12" sm="6">
+                        <v-autocomplete
+                          :items="[
+                            'Skiing',
+                            'Ice hockey',
+                            'Soccer',
+                            'Basketball',
+                            'Hockey',
+                            'Reading',
+                            'Writing',
+                            'Coding',
+                            'Basejump',
+                          ]"
+                          label="Interests"
+                          multiple
+                        ></v-autocomplete>
+                      </v-col>
                     </v-row>
-                  </v-card>
-                </v-hover>
-              </v-col>
-              <v-col col="12">
-                <v-container>
-                  <v-row>
-                    <!-- rank -->
-                    <v-col cols="12" sm="4" md="6" lg="2">
-                      <v-autocomplete
-                        item-text="name"
-                        item-value="name"
-                        v-model="rank"
-                        :items="ranks"
-                        label="ยศ"
-                        required
-                        :rules="rules.nomalRules"
-                        autofocus
-                        clearable
-                        prepend-icon="mdi-chevron-triple-up"
-                      >
-                      </v-autocomplete>
-                    </v-col>
-                    <!-- affi -->
-                    <v-col cols="12" sm="4" md="6" lg="2">
-                      <v-autocomplete
-                        item-text="name"
-                        item-value="name"
-                        v-model="affiliation"
-                        :items="affiliations"
-                        :rules="rules.nomalRules"
-                        label="สังกัด"
-                        required
-                        prepend-icon="mdi-format-list-group"
-                      ></v-autocomplete>
-                    </v-col>
-                    <!-- name -->
-                    <v-col cols="12" sm="4" md="6" lg="4">
-                      <v-text-field
-                        v-model="firstName"
-                        :rules="rules.nameRules"
-                        label="ชื่อ"
-                        prepend-icon="mdi-form-textbox"
-                        required
-                        clearable
-                      ></v-text-field>
-                    </v-col>
-                    <!-- last name -->
-                    <v-col cols="12" sm="4" md="6" lg="4">
-                      <v-text-field
-                        v-model="lastName"
-                        :rules="rules.nameRules"
-                        label="นามสกุล"
-                        prepend-icon="mdi-rename-box"
-                        required
-                        clearable
-                      ></v-text-field>
-                    </v-col>
-                    <!-- email -->
-                    <v-col cols="12" sm="4" md="6" lg="4">
-                      <v-text-field
-                        v-model="email"
-                        :rules="[rules.email.regex]"
-                        label="อีเมล"
-                        prepend-icon="mdi-email"
-                        clearable
-                        required
-                      ></v-text-field>
-                    </v-col>
-                    <!-- tel. -->
-                    <v-col cols="12" sm="4" md="6" lg="4">
-                      <v-text-field
-                        :rules="[rules.phoneNumber.regex]"
-                        v-model="phoneNumber"
-                        :counter="10"
-                        label="เบอร์โทร"
-                        required
-                        clearable
-                        prepend-icon="mdi-card-account-phone"
-                        @keypress="isNumber($event)"
-                      ></v-text-field>
-                    </v-col>
-                    <!-- gender -->
-                    <v-col cols="12" sm="4" md="6" lg="4">
-                      <v-select
-                        v-model="defaultGender"
-                        prepend-icon="mdi-gender-male-female"
-                        item-color="red"
-                        :items="genders"
-                        label="เพศ"
-                        item-value="value"
-                        item-text="name"
-                      >
-                      </v-select>
-                    </v-col>
-                  </v-row>
-                  <v-row> </v-row>
-                </v-container>
-              </v-col>
-            </v-row>
-          </v-responsive>
-        </v-form>
-      </v-card-text>
-      <v-card-actions>
-        <div class="mx-auto">
-          <v-form v-model="valid" ref="formButton" @submit.prevent="submit">
-            <!-- submit form -->
-            <v-btn
-              class="mr-4"
-              color="agree"
-              width="200px"
-              large
-              :disabled="!valid"
-              @click="submit()"
-              dark
-            >
-              ยืนยันการลงทะเบียน
-            </v-btn>
-            <!-- cancel form -->
-            <v-btn
-              class="mr-4"
-              @click="$router.go(-1)"
-              width="200px"
-              large
-              color="error"
-            >
-              ยกเลิกการลงทะเบียน
-            </v-btn>
-            <!-- clear form -->
-            <v-btn
-              class="mr-4"
-              @click="clear"
-              outlined
-              width="200px"
-              large
-              color="error"
-            >
-              ล้างข้อมูล
-            </v-btn>
-          </v-form>
-        </div>
-      </v-card-actions>
-    </v-card>
-    <v-snackbar v-model="snackbar" :timeout="timeout" :color="colorSnackbar">
-      <div class="text-center">
-        {{ statusAction }}
-      </div>
-    </v-snackbar>
-  </v-app>
+                  </v-container>
+                  <small>*indicates required field</small>
+                </v-card-text>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn
+                    color="blue-darken-1"
+                    variant="text"
+                    @click="dialog = false"
+                  >
+                    Close
+                  </v-btn>
+                  <v-btn
+                    color="blue-darken-1"
+                    variant="text"
+                    @click="dialog = false"
+                  >
+                    Save
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+          </v-list-item-action>
+        </v-list-item>
+
+        <v-card-subtitle>
+          <b class="ml-2">Sobre Mim</b>
+          <v-btn v-on:click="saveBio" icon>
+            <v-icon small>{{ bioIcon }}</v-icon>
+          </v-btn>
+        </v-card-subtitle>
+
+        <p v-if="!editBio" class="pl-6 pr-6 pt-0">
+          {{ Bio }}
+        </p>
+        <v-textarea
+          v-model="Bio"
+          rows="2"
+          v-if="editBio"
+          label="Editar minha Bio"
+          class="pa-6"
+        ></v-textarea>
+        <v-spacer></v-spacer>
+        <v-text-field
+          class="pa-6"
+          v-model="Phone"
+          prepend-icon="mdi-whatsapp"
+          label="Phone"
+          :disabled="!editBio"
+        ></v-text-field>
+        <v-spacer></v-spacer>
+
+        <v-row>
+          <v-col cols="6" class="text-end">
+            <v-list-item-content class="sutitles">
+              <v-list-item-title class="text-h6"> 1002 </v-list-item-title>
+              <v-list-item-subtitle class="text-caption"
+                >Curtidas</v-list-item-subtitle
+              >
+            </v-list-item-content>
+          </v-col>
+          <v-col cols="6" class="text-start">
+            <v-list-item-content class="sutitles">
+              <v-list-item-title class="text-h6"> 10 </v-list-item-title>
+              <v-list-item-subtitle class="text-caption"
+                >Seguindo</v-list-item-subtitle
+              >
+            </v-list-item-content>
+          </v-col>
+        </v-row>
+      </v-card>
+    </v-container>
+  </v-main>
 </template>
 <script>
-import { storage } from "../../utils/firebase";
-import { ref, uploadString, getDownloadURL } from "firebase/storage";
-import { apiUrl } from "../../utils/url";
-import { v4 as uuidv4 } from "uuid";
-import axios from "axios";
-import ranks from "../../json/rank.json";
-import affiliations from "../../json/affiliations.json";
-import genders from "../../json/genders.json";
-
 export default {
   data: () => ({
-    user_ID: "",
-    snackbar: false,
-    statusAction: "",
-    colorSnackbar: "",
-    timeout: 2000,
-    loading: false,
     dialog: false,
-    on: {},
-    attrs: {},
-    valid: true,
-    clicked: false,
-    loader: null,
-    avatar: null,
     profileImage: "",
-    CurrentUserimage: "",
-    rank: "",
-    ranks: ranks,
-    affiliation: "",
-    firstName: "",
-    lastName: "",
     imageURL: "",
-    defaultGender: {
-      text: "ไม่ระบุ",
-      value: "n/a",
+    Phone: "00 00000-0000",
+    editBio: false,
+    Bio: "my bio test about myself, what do you know about me?",
+    bioIcon: "mdi-pencil",
+    focus: "",
+    type: "month",
+    typeToLabel: {
+      month: "Month",
+      week: "Week",
+      day: "Day",
+      "4day": "4 Days",
     },
-    genders: genders,
-    tel: "",
-    email: "",
-    phoneNumber: "",
-    zone: null,
-    building: null,
-    room: null,
-    affiliations: affiliations,
-    rules: {
-      nameRules: [
-        (v) => !!v || "กรุณากรอกข้อมูล",
-        (v) => (v && v.length >= 2) || "กรอกชื่อให้มากกว่า 2 ตัวอักษร",
-      ],
-      email: {
-        required: (v) => !!v || "กรุณาใส่อีเมล",
-        regex: (v) =>
-          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-            v
-          ) || "อีเมลไม่ถูกต้อง",
-      },
-      phoneNumber: {
-        required: (v) => !!v || "กรุณาใส่เบอร์โทรศัพท์",
-        regex: (v) =>
-          /^(08[0-9]{8})|(06[0-9]{8})|(09[0-9]{8})$/.test(v) ||
-          "เบอร์โทรศัพท์ม่ถูกต้อง",
-      },
-      nomalRules: [(v) => !!v || "กรุณากรอกข้อมูล"],
-    },
-    emailRules: [
-      (v) => !!v || "กรุณากรอกอีเมล",
-      (v) => /[\w._%+-]+@[\w.-]+\.[a-zA-Z]{2,4}/.test(v) || "อีเมลไม่ผิดรูปแบบ",
+    selectedEvent: {},
+    selectedElement: null,
+    selectedOpen: false,
+    events: [],
+    colors: [
+      "blue",
+      "indigo",
+      "deep-purple",
+      "cyan",
+      "green",
+      "orange",
+      "grey darken-1",
     ],
+    names: [
+      "Meeting",
+      "Holiday",
+      "PTO",
+      "Travel",
+      "Event",
+      "Birthday",
+      "Conference",
+      "Party",
+    ],
+    tab: null,
+    items: ["Minha agenda", "Sobre Mim"],
+    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
   }),
-  setup() {},
-  watch: {},
-  computed: {},
-  created() {
-    this.getRole();
-    this.gettoken();
+  mounted() {
+    //this.$refs.calendar.checkChange();
   },
-
-  methods: {
-    getRole() {
-      var role = localStorage.getItem("role");
-      var user_ID = localStorage.getItem("id");
-      this.role = role;
-      this.user_ID = user_ID;
+  computed: {
+    buttonText() {
+      return this.selectedFile
+        ? this.selectedFile.name
+        : this.defaultButtonText;
     },
-    async submit() {
-      if (this.$refs.formEdit.validate()) {
-        this.imageURL = await this.uploadProfileImageToStorage(
-          this.profileImage
-        );
-        this.callAPIEditUser();
+  },
+  methods: {
+    saveBio() {
+      this.editBio = !this.editBio;
+      this.bioIcon = "mdi-content-save";
+      if (!this.editBio) {
+        this.bioIcon = "mdi-pencil";
+
+        alert("salvo com sucesso!");
       }
     },
-    gettoken() {
-      var token = sessionStorage.getItem("refreshToken");
-      this.token = token;
-    },
-    async uploadProfileImageToStorage(profileImage) {
-      const metadata = { contentType: "image/jpeg" };
-      const imageName = uuidv4() + ".jpg";
-      const storageRef = ref(storage, `profile-image/${imageName}`);
-      return new Promise(function (resolve) {
-        uploadString(storageRef, profileImage, "data_url", metadata).then(
-          (snapshot) => {
-            getDownloadURL(snapshot.ref).then((downloadURL) => {
-              resolve(downloadURL);
-            });
-          }
-        );
-      });
-    },
-    async callAPIEditUser() {
-      const data = {
-        rank: this.rank,
-        affiliation: this.affiliation,
-        firstName: this.firstName.trim(),
-        lastName: this.lastName.trim(),
-        email: this.email.trim(),
-        phoneNumber: this.phoneNumber.trim(),
-        gender: this.defaultGender,
-        profileUrl: this.imageURL,
-      };
-      // let id = "?id=" +  this.user_ID
-      const config = {
-        headers: {
-          "x-api-key": process.env.apiKey,
-          "x-refresh-token": this.token,
-        },
-      };
-      axios
-        .patch(
-          apiUrl + "/v1/auth/edit-info" + "?id=" + this.user_ID,
-          data,
-          config
-        )
-        .then(() => {
-          console.log(this.user_ID);
-          this.$refs.formEdit.reset();
-          this.statusAction = "แก้ไขข้อมูลสำเร็จ";
-          this.colorSnackbar = "agree";
-          this.snackbar = true;
-          this.profileImage = null;
-        })
-        .catch((error) => {
-          console.log(error);
-          this.snackbar = true;
-          this.snackbarColor = "red";
-          this.text = "มีบางอย่างผิดพลาด กรุณาติดต่อ ผู้จัดทำ";
-        });
-    },
-    // upload image and preview
+
     handleImageButtonClick() {
       this.$refs.image.click();
     },
@@ -382,32 +289,70 @@ export default {
       reader.readAsDataURL(file);
       reader.onload = (e) => {
         this.profileImage = e.target.result;
-        this.isUploadProfileImage = true;
-        // this.Userimage = e.target.result;
-        // localStorage.setItem("ImageURL", this.Userimage);
       };
     },
-    clear() {
-      this.$refs.formEdit.reset();
-      this.profileImage = "";
-      // localStorage.removeItem("ImageURL");
+    viewDay({ date }) {
+      this.focus = date;
+      this.type = "day";
     },
-    validate() {
-      this.$refs.formEdit.validate();
+    getEventColor(event) {
+      return event.color;
     },
-    // number only in text field
-    isNumber: function (evt) {
-      evt = evt ? evt : window.event;
-      var charCode = evt.which ? evt.which : evt.keyCode;
-      if (
-        charCode > 31 &&
-        (charCode < 48 || charCode > 57) &&
-        charCode !== 46
-      ) {
-        evt.preventDefault();
+    setToday() {
+      this.focus = "";
+    },
+    prev() {
+      this.$refs.calendar.prev();
+    },
+    next() {
+      this.$refs.calendar.next();
+    },
+    showEvent({ nativeEvent, event }) {
+      const open = () => {
+        this.selectedEvent = event;
+        this.selectedElement = nativeEvent.target;
+        requestAnimationFrame(() =>
+          requestAnimationFrame(() => (this.selectedOpen = true))
+        );
+      };
+
+      if (this.selectedOpen) {
+        this.selectedOpen = false;
+        requestAnimationFrame(() => requestAnimationFrame(() => open()));
       } else {
-        return true;
+        open();
       }
+
+      nativeEvent.stopPropagation();
+    },
+    updateRange({ start, end }) {
+      const events = [];
+
+      const min = new Date(`${start.date}T00:00:00`);
+      const max = new Date(`${end.date}T23:59:59`);
+      const days = (max.getTime() - min.getTime()) / 86400000;
+      const eventCount = this.rnd(days, days + 20);
+
+      for (let i = 0; i < eventCount; i++) {
+        const allDay = this.rnd(0, 3) === 0;
+        const firstTimestamp = this.rnd(min.getTime(), max.getTime());
+        const first = new Date(firstTimestamp - (firstTimestamp % 900000));
+        const secondTimestamp = this.rnd(2, allDay ? 288 : 8) * 900000;
+        const second = new Date(first.getTime() + secondTimestamp);
+
+        events.push({
+          name: this.names[this.rnd(0, this.names.length - 1)],
+          start: first,
+          end: second,
+          color: this.colors[this.rnd(0, this.colors.length - 1)],
+          timed: !allDay,
+        });
+      }
+
+      this.events = events;
+    },
+    rnd(a, b) {
+      return Math.floor((b - a + 1) * Math.random()) + a;
     },
   },
 };
