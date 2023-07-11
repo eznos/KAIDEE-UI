@@ -33,19 +33,6 @@
                           label="รหัส recovery code"
                         >
                         </v-text-field>
-                        <!-- <v-otp-input
-                          v-model="recoveryCode"
-                          :disabled="loading"
-                          @finish="onFinish"
-                          length="6"
-                          autofocus
-                        ></v-otp-input>
-                        <v-overlay absolute :value="loading">
-                          <v-progress-circular
-                            indeterminate
-                            color="primary"
-                          ></v-progress-circular>
-                        </v-overlay> -->
                       </v-col>
                       <v-col cols="12" sm="6" md="12">
                         <v-text-field

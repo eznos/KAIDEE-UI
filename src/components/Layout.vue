@@ -21,17 +21,53 @@
         class="hidden-sm-and-down pl-10 ml-4"
       />
       <v-spacer />
-      <v-btn icon to="/profile">
-        <v-icon>mdi-account-circle</v-icon>
-      </v-btn>
-      <v-btn v-on="on" href="/cart" icon>
-        <v-badge content="2" value="2" color="green" overlap>
-          <v-icon>mdi-cart</v-icon>
-        </v-badge>
-      </v-btn>
-      <v-btn v-on="on" icon to="/login">
-          <v-icon>mdi-login</v-icon>
-      </v-btn>
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn v-bind="attrs" v-on="on" icon to="/store">
+            <v-icon>mdi-shopping</v-icon>
+          </v-btn>
+        </template>
+        <span>คลังสินค้า</span>
+      </v-tooltip>
+
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn v-bind="attrs" v-on="on" icon to="/profile">
+            <v-icon>mdi-account-circle</v-icon>
+          </v-btn>
+        </template>
+        <span>โปรไฟล์</span>
+      </v-tooltip>
+
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn v-bind="attrs" v-on="on" to="/cart" icon>
+            <v-badge content="2" value="2" color="green" overlap>
+              <v-icon>mdi-cart</v-icon>
+            </v-badge>
+          </v-btn>
+        </template>
+        <span>ตระกร้า</span>
+      </v-tooltip>
+
+      <v-dialog v-model="dialog" persistent max-width="290">
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn icon v-bind="attrs" v-on="on">
+            <v-icon>mdi-login</v-icon>
+          </v-btn>
+        </template>
+
+        <v-card>
+          <v-card-title class="text-h5">
+            ต้องการออกจากระบบหรือไม่ ?
+          </v-card-title>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="warning" text @click="dialog = false"> ยกเลิก </v-btn>
+            <v-btn color="green darken-1" text to="/login"> ตกลง </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </v-app-bar>
     <v-content>
       <v-bottom-navigation :value="activeBtn" color="primary" horizontal>
@@ -57,44 +93,16 @@
         <a href="/product" class="v-btn">
           <span>Product</span>
         </a>
-        <v-btn href="/blog">
-          <span>Blog</span>
-        </v-btn>
       </v-bottom-navigation>
     </v-content>
     <router-view />
     <v-footer :padless="true">
       <v-card flat tile width="100%" class="secondary white--text text-center">
-        <v-card-text>
-          <v-btn class="mx-4 white--text" icon>
-            <v-icon size="24px">mdi-home</v-icon>
-          </v-btn>
-          <v-btn class="mx-4 white--text" icon>
-            <v-icon size="24px">mdi-email</v-icon>
-          </v-btn>
-          <v-btn class="mx-4 white--text" icon>
-            <v-icon size="24px">mdi-calendar</v-icon>
-          </v-btn>
-          <v-btn class="mx-4 white--text" icon>
-            <v-icon size="24px">mdi-delete</v-icon>
-          </v-btn>
-        </v-card-text>
-
-        <v-card-text class="white--text pt-0">
-          Phasellus feugiat arcu sapien, et iaculis ipsum elementum sit amet.
-          Mauris cursus commodo interdum. Praesent ut risus eget metus luctus
-          accumsan id ultrices nunc. Sed at orci sed massa consectetur dignissim
-          a sit amet dui. Duis commodo vitae velit et faucibus. Morbi vehicula
-          lacinia malesuada. Nulla placerat augue vel ipsum ultrices, cursus
-          iaculis dui sollicitudin. Vestibulum eu ipsum vel diam elementum
-          tempor vel ut orci. Orci varius natoque penatibus et magnis dis
-          parturient montes, nascetur ridiculus mus.
-        </v-card-text>
-
         <v-divider></v-divider>
 
         <v-card-text class="white--text">
-          {{ new Date().getFullYear() }} — <strong>ShipIT</strong>
+          {{ new Date().getFullYear() }} —
+          <strong><v-icon color="#ffffff">mdi-truck</v-icon>&nbsp;KAIDEE</strong>
         </v-card-text>
       </v-card>
     </v-footer>
@@ -105,6 +113,7 @@ export default {
   data: () => {
     return {
       data: 0,
+      dialog: false,
       items: [
         { title: "T-Shirts" },
         { title: "Jackets" },
